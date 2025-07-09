@@ -6,11 +6,14 @@ import { ContentCard } from '@/components/content-card';
 import { FeaturedCard } from '@/components/featured-card';
 import {
   FocusAwareStatusBar,
+  Image,
+  Pressable,
   SafeAreaView,
   ScrollView,
   Text,
   View,
 } from '@/components/ui';
+import { Search } from '@/components/ui/icons';
 
 export default function Home() {
   const router = useRouter();
@@ -32,11 +35,34 @@ export default function Home() {
       <SafeAreaView className="flex-1 bg-gray-900">
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           {/* Header */}
-          <View className="px-6 py-4">
-            <Text className="text-3xl font-bold text-white">Good Evening</Text>
-            <Text className="mt-1 text-gray-400">
-              What would you like to watch today?
-            </Text>
+          <View className="flex-row items-center justify-between px-6 py-4">
+            <View className="flex-1">
+              <Text className="text-3xl font-bold text-white">
+                Good Evening
+              </Text>
+              <Text className="mt-1 text-gray-400">
+                What would you like to read today?
+              </Text>
+            </View>
+
+            <View className="ml-4 flex-row items-center space-x-3">
+              {/* Search Icon */}
+              <Pressable
+                onPress={() => router.push('/search')}
+                className="rounded-full bg-gray-800 p-3"
+              >
+                <Search color="#9CA3AF" size={24} />
+              </Pressable>
+
+              {/* Profile Avatar */}
+              <Pressable onPress={() => router.push('/profile')}>
+                <Image
+                  source={{ uri: 'https://pic.re/image/80x80/profile-avatar' }}
+                  className="size-12 rounded-full bg-gray-700"
+                  resizeMode="cover"
+                />
+              </Pressable>
+            </View>
           </View>
 
           {/* Today's Featured */}

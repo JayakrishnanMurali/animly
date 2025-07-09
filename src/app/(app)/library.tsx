@@ -1,9 +1,12 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
 
 import { mockAnime, mockManga } from '@/api/anime';
 import { ContentCard } from '@/components/content-card';
 import {
   FocusAwareStatusBar,
+  Image,
+  Pressable,
   SafeAreaView,
   ScrollView,
   Text,
@@ -11,20 +14,36 @@ import {
 } from '@/components/ui';
 
 export default function Library() {
+  const router = useRouter();
   const totalAnime = mockAnime.length;
   const totalManga = mockManga.length;
   const totalHours = Math.floor(Math.random() * 120) + 20; // Mock reading hours
+
+  const handleContentPress = (id: string, type: 'anime' | 'manga') => {
+    router.push(`/detail/${id}?type=${type}`);
+  };
 
   return (
     <>
       <FocusAwareStatusBar />
       <SafeAreaView className="flex-1 bg-gray-900">
         <ScrollView className="px-6" showsVerticalScrollIndicator={false}>
-          <View className="py-4">
-            <Text className="text-3xl font-bold text-white">My Library</Text>
-            <Text className="mt-2 text-gray-400">
-              Your anime and manga collection
-            </Text>
+          <View className="flex-row items-center justify-between py-4">
+            <View className="flex-1">
+              <Text className="text-3xl font-bold text-white">My Library</Text>
+              <Text className="mt-2 text-gray-400">
+                Your anime and manga collection
+              </Text>
+            </View>
+
+            {/* Profile Avatar */}
+            <Pressable onPress={() => router.push('/profile')} className="ml-4">
+              <Image
+                source={{ uri: 'https://pic.re/image/80x80/profile-avatar' }}
+                className="size-12 rounded-full bg-gray-700"
+                resizeMode="cover"
+              />
+            </Pressable>
           </View>
 
           {/* Quick Stats */}
@@ -74,12 +93,12 @@ export default function Library() {
               <ContentCard
                 content={mockManga[0]}
                 type="manga"
-                onPress={() => {}}
+                onPress={() => handleContentPress(mockManga[0].id, 'manga')}
               />
               <ContentCard
                 content={mockManga[1]}
                 type="manga"
-                onPress={() => {}}
+                onPress={() => handleContentPress(mockManga[1].id, 'manga')}
               />
             </ScrollView>
           </View>
@@ -98,17 +117,17 @@ export default function Library() {
               <ContentCard
                 content={mockAnime[0]}
                 type="anime"
-                onPress={() => {}}
+                onPress={() => handleContentPress(mockAnime[0].id, 'anime')}
               />
               <ContentCard
                 content={mockManga[4]}
                 type="manga"
-                onPress={() => {}}
+                onPress={() => handleContentPress(mockManga[4].id, 'manga')}
               />
               <ContentCard
                 content={mockAnime[6]}
                 type="anime"
-                onPress={() => {}}
+                onPress={() => handleContentPress(mockAnime[6].id, 'anime')}
               />
             </ScrollView>
           </View>
@@ -127,22 +146,22 @@ export default function Library() {
               <ContentCard
                 content={mockManga[2]}
                 type="manga"
-                onPress={() => {}}
+                onPress={() => handleContentPress(mockManga[2].id, 'manga')}
               />
               <ContentCard
                 content={mockAnime[3]}
                 type="anime"
-                onPress={() => {}}
+                onPress={() => handleContentPress(mockAnime[3].id, 'anime')}
               />
               <ContentCard
                 content={mockManga[6]}
                 type="manga"
-                onPress={() => {}}
+                onPress={() => handleContentPress(mockManga[6].id, 'manga')}
               />
               <ContentCard
                 content={mockAnime[7]}
                 type="anime"
-                onPress={() => {}}
+                onPress={() => handleContentPress(mockAnime[7].id, 'anime')}
               />
             </ScrollView>
           </View>
