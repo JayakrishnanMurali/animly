@@ -1,0 +1,224 @@
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import React from 'react';
+import { Dimensions } from 'react-native';
+
+import type { Anime, Manga } from '@/api/anime';
+import { mockAnime, mockManga } from '@/api/anime';
+import {
+  FocusAwareStatusBar,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from '@/components/ui';
+
+const { height: screenHeight } = Dimensions.get('window');
+
+export default function DetailScreen() {
+  const { id, type } = useLocalSearchParams<{
+    id: string;
+    type: 'anime' | 'manga';
+  }>();
+  const router = useRouter();
+
+  // Find the content based on ID and type
+  const content =
+    type === 'anime'
+      ? mockAnime.find((item) => item.id === id)
+      : mockManga.find((item) => item.id === id);
+
+  if (!content) {
+    return (
+      <View className="flex-1 bg-gray-900">
+        <Text className="text-center text-white">Content not found</Text>
+      </View>
+    );
+  }
+
+  const isAnime = type === 'anime';
+  const animeContent = content as Anime;
+  const mangaContent = content as Manga;
+
+  return (
+    <View className="flex-1 bg-gray-900">
+      <FocusAwareStatusBar />
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        {/* Hero Section */}
+        <View className="relative" style={{ height: screenHeight * 0.6 }}>
+          <Image
+            source={{ uri: content.bannerImage || content.coverImage }}
+            className="absolute inset-0 size-full"
+            resizeMode="cover"
+          />
+
+          {/* Multi-layer gradient overlay */}
+          <View className="absolute inset-x-0 bottom-0 h-64 bg-black/80" />
+          <View className="absolute inset-y-0 left-0 w-32 bg-black/40" />
+
+          {/* Back button */}
+          <Pressable
+            onPress={() => router.back()}
+            className="absolute left-6 top-16 z-10 rounded-full bg-black/60 p-4"
+          >
+            <Text className="text-xl text-white">←</Text>
+          </Pressable>
+
+          {/* Content overlay */}
+          <View className="absolute inset-x-0 bottom-0 p-6">
+            {/* Title and rating */}
+            <View className="mb-4">
+              <View className="mb-2 flex-row items-center">
+                <View className="mr-3 rounded-full bg-yellow-500 px-3 py-1">
+                  <Text className="text-xs font-bold text-black">
+                    ⭐ {content.rating}
+                  </Text>
+                </View>
+                <View
+                  className={`rounded-full px-3 py-1 ${
+                    content.status === 'ongoing'
+                      ? 'bg-green-500'
+                      : content.status === 'completed'
+                        ? 'bg-blue-500'
+                        : 'bg-gray-500'
+                  }`}
+                >
+                  <Text className="text-xs font-bold uppercase text-white">
+                    {content.status}
+                  </Text>
+                </View>
+                <View className="ml-3 rounded-full bg-white/20 px-3 py-1">
+                  <Text className="text-xs font-bold uppercase text-white">
+                    {type}
+                  </Text>
+                </View>
+              </View>
+
+              <Text className="mb-2 text-4xl font-bold text-white">
+                {content.title}
+              </Text>
+
+              <Text className="text-lg text-white/80">
+                {isAnime
+                  ? animeContent.studio
+                  : `${mangaContent.author} • ${mangaContent.artist}`}
+              </Text>
+            </View>
+
+            {/* Action buttons */}
+            <View className="flex-row space-x-4">
+              <Pressable className="flex-1 rounded-full bg-blue-600 py-4">
+                <Text className="text-center text-lg font-bold text-white">
+                  {isAnime ? 'Start Watching' : 'Start Reading'}
+                </Text>
+              </Pressable>
+
+              <Pressable className="rounded-full bg-white/20 px-6 py-4">
+                <Text className="text-lg font-bold text-white">Follow</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+
+        {/* Content Details */}
+        <View className="px-6 py-8">
+          {/* Synopsis */}
+          <View className="mb-8">
+            <Text className="mb-4 text-xl font-bold text-white">Synopsis</Text>
+            <Text className="leading-6 text-gray-300">{content.synopsis}</Text>
+          </View>
+
+          {/* Genres */}
+          <View className="mb-8">
+            <Text className="mb-4 text-xl font-bold text-white">Genres</Text>
+            <View className="flex-row flex-wrap">
+              {content.genres.map((genre, index) => (
+                <View
+                  key={index}
+                  className="mb-2 mr-2 rounded-full bg-blue-600 px-4 py-2"
+                >
+                  <Text className="font-medium text-white">{genre}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+
+          {/* Stats */}
+          <View className="mb-8 rounded-2xl bg-gray-800 p-6">
+            <Text className="mb-4 text-xl font-bold text-white">
+              Information
+            </Text>
+            <View className="space-y-3">
+              <View className="flex-row justify-between">
+                <Text className="text-gray-400">Status</Text>
+                <Text className="font-medium capitalize text-white">
+                  {content.status}
+                </Text>
+              </View>
+              <View className="flex-row justify-between">
+                <Text className="text-gray-400">
+                  {isAnime ? 'Episodes' : 'Chapters'}
+                </Text>
+                <Text className="font-medium text-white">
+                  {isAnime
+                    ? animeContent.totalEpisodes
+                    : mangaContent.totalChapters}
+                </Text>
+              </View>
+              <View className="flex-row justify-between">
+                <Text className="text-gray-400">Release Date</Text>
+                <Text className="font-medium text-white">
+                  {new Date(content.releaseDate).getFullYear()}
+                </Text>
+              </View>
+              {isAnime && (
+                <>
+                  <View className="flex-row justify-between">
+                    <Text className="text-gray-400">Studio</Text>
+                    <Text className="font-medium text-white">
+                      {animeContent.studio}
+                    </Text>
+                  </View>
+                  <View className="flex-row justify-between">
+                    <Text className="text-gray-400">Duration</Text>
+                    <Text className="font-medium text-white">
+                      {animeContent.duration} min
+                    </Text>
+                  </View>
+                </>
+              )}
+              {!isAnime && (
+                <>
+                  <View className="flex-row justify-between">
+                    <Text className="text-gray-400">Author</Text>
+                    <Text className="font-medium text-white">
+                      {mangaContent.author}
+                    </Text>
+                  </View>
+                  <View className="flex-row justify-between">
+                    <Text className="text-gray-400">Demographic</Text>
+                    <Text className="font-medium capitalize text-white">
+                      {mangaContent.demographic}
+                    </Text>
+                  </View>
+                </>
+              )}
+            </View>
+          </View>
+
+          {/* Similar content section placeholder */}
+          <View className="mb-8">
+            <Text className="mb-4 text-xl font-bold text-white">
+              Similar {isAnime ? 'Anime' : 'Manga'}
+            </Text>
+            <View className="rounded-2xl bg-gray-800 p-6">
+              <Text className="text-center text-gray-400">
+                Similar content recommendations coming soon...
+              </Text>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    </View>
+  );
+}

@@ -28,7 +28,25 @@ export default function TabLayout() {
     return <Redirect href="/login" />;
   }
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: '#111827', // gray-900
+          borderTopWidth: 0,
+          elevation: 0,
+          shadowOpacity: 0,
+          height: 90,
+        },
+        tabBarActiveTintColor: '#60A5FA', // blue-400
+        tabBarInactiveTintColor: '#6B7280', // gray-500
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '600',
+          paddingBottom: 8,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
@@ -42,7 +60,7 @@ export default function TabLayout() {
         name="library"
         options={{
           title: 'Library',
-          tabBarIcon: ({ color }) => <HomeIcon color={color} />,
+          tabBarIcon: ({ color }) => <SettingsIcon color={color} />,
           tabBarButtonTestID: 'library-tab',
         }}
       />
@@ -51,7 +69,6 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: 'Settings',
-          headerShown: false,
           tabBarIcon: ({ color }) => <SettingsIcon color={color} />,
           tabBarButtonTestID: 'settings-tab',
         }}
