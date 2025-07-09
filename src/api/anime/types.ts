@@ -3,7 +3,7 @@ export interface Anime {
   title: string;
   synopsis: string;
   genres: string[];
-  status: 'ongoing' | 'completed' | 'upcoming';
+  status: 'ongoing' | 'completed' | 'upcoming' | 'hiatus';
   episodes: Episode[];
   totalEpisodes: number;
   rating: number;
