@@ -1,0 +1,31 @@
+
+. "$(dirname "$0")/common.sh"
+
+
+echo "===\n>> Checking branch name..."
+
+# Check if branch protection is enabled
+if [[ -z $SKIP_BRANCH_PROTECTION ]]; then
+    # Handle initial commit case where HEAD doesn't exist yet
+    if git rev-parse --verify HEAD >/dev/null 2>&1; then
+        BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    else
+        # For initial commit, get the branch name from git symbolic-ref
+        BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || echo "main")
+    fi
+    
+    PROTECTED_BRANCHES="^(main|master)"
+
+    if [[ $BRANCH =~ $PROTECTED_BRANCHES ]]; then
+        echo ">> Direct commits to the $BRANCH branch are not allowed. Please choose a new branch name."
+        exit 1
+    fi
+else
+    echo ">> Skipping branch protection."
+fi
+
+echo ">> Finish checking branch name"
+echo ">> Linting your files and fixing them if needed..."
+
+pnpm type-check
+pnpm lint-staged
