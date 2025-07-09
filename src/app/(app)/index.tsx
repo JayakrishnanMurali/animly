@@ -29,6 +29,10 @@ export default function Home() {
     router.push(`/detail/${id}?type=${type}`);
   };
 
+  const navigateToViewAll = (category: string, type: 'anime' | 'manga') => {
+    router.push(`/view-all?category=${category}&type=${type}`);
+  };
+
   return (
     <>
       <FocusAwareStatusBar />
@@ -36,20 +40,13 @@ export default function Home() {
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           {/* Header */}
           <View className="flex-row items-center justify-between px-6 py-4">
-            <View className="flex-1">
-              <Text className="text-3xl font-bold text-white">
-                Good Evening
-              </Text>
-              <Text className="mt-1 text-gray-400">
-                What would you like to read today?
-              </Text>
-            </View>
+            <Text className="text-3xl font-bold text-white">Animly</Text>
 
-            <View className="ml-4 flex-row items-center space-x-3">
+            <View className="flex-row items-center">
               {/* Search Icon */}
               <Pressable
                 onPress={() => router.push('/search')}
-                className="rounded-full bg-gray-800 p-3"
+                className="mr-4 rounded-full bg-gray-800 p-3"
               >
                 <Search color="#9CA3AF" size={24} />
               </Pressable>
@@ -103,7 +100,9 @@ export default function Home() {
                 </Text>
                 <Text className="text-gray-400">Most watched this week</Text>
               </View>
-              <Text className="text-blue-400">View All</Text>
+              <Pressable onPress={() => navigateToViewAll('trending', 'anime')}>
+                <Text className="text-blue-400">View All</Text>
+              </Pressable>
             </View>
 
             <ScrollView
@@ -133,7 +132,9 @@ export default function Home() {
                 </Text>
                 <Text className="text-gray-400">Top rated this month</Text>
               </View>
-              <Text className="text-green-400">View All</Text>
+              <Pressable onPress={() => navigateToViewAll('popular', 'manga')}>
+                <Text className="text-green-400">View All</Text>
+              </Pressable>
             </View>
 
             <ScrollView

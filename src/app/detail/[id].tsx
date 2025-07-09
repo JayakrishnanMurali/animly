@@ -13,6 +13,7 @@ import {
   Text,
   View,
 } from '@/components/ui';
+import { ArrowLeft } from '@/components/ui/icons';
 
 const { height: screenHeight } = Dimensions.get('window');
 
@@ -28,6 +29,27 @@ export default function DetailScreen() {
     type === 'anime'
       ? mockAnime.find((item) => item.id === id)
       : mockManga.find((item) => item.id === id);
+
+  const getGenreColor = (genre: string) => {
+    const colors: { [key: string]: string } = {
+      Action: 'bg-red-600',
+      Adventure: 'bg-orange-600',
+      Comedy: 'bg-yellow-600',
+      Drama: 'bg-purple-600',
+      Fantasy: 'bg-indigo-600',
+      Horror: 'bg-gray-600',
+      Romance: 'bg-pink-600',
+      'Sci-Fi': 'bg-cyan-600',
+      'Slice of Life': 'bg-green-600',
+      Supernatural: 'bg-violet-600',
+      Thriller: 'bg-red-800',
+      School: 'bg-blue-600',
+      Superhero: 'bg-emerald-600',
+      Historical: 'bg-amber-600',
+      Family: 'bg-teal-600',
+    };
+    return colors[genre] || 'bg-blue-600';
+  };
 
   if (!content) {
     return (
@@ -88,7 +110,7 @@ export default function DetailScreen() {
             onPress={() => router.back()}
             className="absolute left-6 top-16 z-10 rounded-full bg-black/60 p-4"
           >
-            <Text className="text-xl text-white">←</Text>
+            <ArrowLeft color="#FFFFFF" />
           </Pressable>
 
           {/* Content overlay */}
@@ -134,8 +156,8 @@ export default function DetailScreen() {
             </View>
 
             {/* Action buttons */}
-            <View className="flex-row space-x-4">
-              <Pressable className="flex-1 rounded-full bg-blue-600 py-4">
+            <View className="flex-row">
+              <Pressable className="mr-4 flex-1 rounded-full bg-blue-600 py-4">
                 <Text className="text-center text-lg font-bold text-white">
                   {isAnime ? 'Start Watching' : 'Start Reading'}
                 </Text>
@@ -163,7 +185,7 @@ export default function DetailScreen() {
               {content.genres.map((genre, index) => (
                 <View
                   key={index}
-                  className="mb-2 mr-2 rounded-full bg-blue-600 px-4 py-2"
+                  className={`mb-2 mr-2 rounded-full px-4 py-2 ${getGenreColor(genre)}`}
                 >
                   <Text className="font-medium text-white">{genre}</Text>
                 </View>
