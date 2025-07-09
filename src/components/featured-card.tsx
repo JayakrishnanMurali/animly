@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 
 import type { Anime, Manga } from '@/api/anime';
@@ -49,7 +50,17 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
       />
 
       {/* Gradient overlay */}
-      <View className="absolute inset-x-0 bottom-0 h-48 bg-black/70" />
+      <LinearGradient
+        colors={['transparent', 'rgba(0,0,0,0.3)', 'rgba(0,0,0,0.8)']}
+        locations={[0, 0.5, 1]}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}
+      />
 
       {/* Top badges */}
       <View className="absolute left-4 top-4 flex-row space-x-2">
@@ -72,27 +83,32 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
 
       {/* Content info */}
       <View className="absolute inset-x-0 bottom-0 p-6">
-        <View className="mb-2 flex-row items-center">
-          <Text className="text-sm font-medium text-yellow-400">
-            ⭐ {content.rating}
-          </Text>
-          <Text className="ml-2 text-sm text-white/70">
-            {type === 'anime'
-              ? (content as Anime).studio
-              : (content as Manga).author}
-          </Text>
+        <View className="mb-3 flex-row items-center justify-between">
+          <View className="flex-1">
+            <Text className="mb-1 text-2xl font-bold text-white">
+              {content.title}
+            </Text>
+            <Text className="text-sm text-white/70">
+              {type === 'anime'
+                ? (content as Anime).studio
+                : (content as Manga).author}
+            </Text>
+          </View>
+
+          {/* Modern Rating UI */}
+          <View className="ml-4 items-center rounded-xl bg-white/10 px-3 py-2 backdrop-blur-sm">
+            <View className="flex-row items-center">
+              <View className="mr-1 size-2 rounded-full bg-yellow-400" />
+              <Text className="text-lg font-bold text-white">
+                {content.rating}
+              </Text>
+            </View>
+            <Text className="text-xs text-white/60">Rating</Text>
+          </View>
         </View>
 
-        <Text className="mb-3 text-2xl font-bold text-white">
-          {content.title}
-        </Text>
-
-        <Text className="mb-4 text-sm text-white/90" numberOfLines={2}>
-          {content.synopsis}
-        </Text>
-
         <View className="flex-row flex-wrap">
-          {content.genres.slice(0, 3).map((genre, index) => (
+          {content.genres.slice(0, 2).map((genre, index) => (
             <View
               key={index}
               className="mb-2 mr-2 rounded-full bg-white/20 px-3 py-1"

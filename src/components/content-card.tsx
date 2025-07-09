@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 
 import type { Anime, Manga } from '@/api/anime';
@@ -27,10 +28,21 @@ export const ContentCard: React.FC<ContentCardProps> = ({
         />
 
         {/* Gradient overlay */}
-        <View className="absolute inset-x-0 bottom-0 h-32 bg-black/70" />
+        <LinearGradient
+          colors={['transparent', 'rgba(0,0,0,0.6)', 'rgba(0,0,0,0.9)']}
+          locations={[0, 0.3, 1]}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+        />
 
-        {/* Rating overlay */}
-        <View className="absolute right-3 top-3 rounded-full bg-black/70 px-2 py-1">
+        {/* Modern Rating overlay */}
+        <View className="absolute right-3 top-3 flex-row items-center rounded-lg bg-black/70 px-2 py-1">
+          <View className="mr-1 size-1.5 rounded-full bg-yellow-400" />
           <Text className="text-xs font-bold text-white">{content.rating}</Text>
         </View>
 

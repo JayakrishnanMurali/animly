@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import { Dimensions } from 'react-native';
@@ -53,8 +54,34 @@ export default function DetailScreen() {
           />
 
           {/* Multi-layer gradient overlay */}
-          <View className="absolute inset-x-0 bottom-0 h-64 bg-black/80" />
-          <View className="absolute inset-y-0 left-0 w-32 bg-black/40" />
+          <LinearGradient
+            colors={[
+              'transparent',
+              'rgba(0,0,0,0.3)',
+              'rgba(0,0,0,0.8)',
+              'rgba(0,0,0,0.95)',
+            ]}
+            locations={[0, 0.4, 0.7, 1]}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+            }}
+          />
+          <LinearGradient
+            colors={['rgba(0,0,0,0.6)', 'transparent']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              width: 160,
+            }}
+          />
 
           {/* Back button */}
           <Pressable
@@ -69,9 +96,10 @@ export default function DetailScreen() {
             {/* Title and rating */}
             <View className="mb-4">
               <View className="mb-2 flex-row items-center">
-                <View className="mr-3 rounded-full bg-yellow-500 px-3 py-1">
-                  <Text className="text-xs font-bold text-black">
-                    ⭐ {content.rating}
+                <View className="mr-3 flex-row items-center rounded-xl bg-white/10 px-3 py-2 backdrop-blur-sm">
+                  <View className="mr-1 size-2 rounded-full bg-yellow-400" />
+                  <Text className="text-sm font-bold text-white">
+                    {content.rating}
                   </Text>
                 </View>
                 <View
