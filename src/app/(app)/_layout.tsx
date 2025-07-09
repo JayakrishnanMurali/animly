@@ -2,8 +2,10 @@ import { Redirect, SplashScreen, Tabs } from 'expo-router';
 import React, { useCallback, useEffect } from 'react';
 
 import {
-  Feed as HomeIcon,
+  Home as HomeIcon,
   Settings as SettingsIcon,
+  Support as LibraryIcon,
+  Target as DiscoverIcon,
 } from '@/components/ui/icons';
 import { useAuth, useIsFirstTime } from '@/lib';
 
@@ -60,8 +62,17 @@ export default function TabLayout() {
         name="library"
         options={{
           title: 'Library',
-          tabBarIcon: ({ color }) => <SettingsIcon color={color} />,
+          tabBarIcon: ({ color }) => <LibraryIcon color={color} />,
           tabBarButtonTestID: 'library-tab',
+        }}
+      />
+
+      <Tabs.Screen
+        name="discover"
+        options={{
+          title: 'Discover',
+          tabBarIcon: ({ color }) => <DiscoverIcon color={color} />,
+          tabBarButtonTestID: 'discover-tab',
         }}
       />
 

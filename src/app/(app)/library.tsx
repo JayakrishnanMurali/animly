@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 
 import { mockAnime, mockManga } from '@/api/anime';
+import { mockUserProfile } from '@/api/gamification';
 import { ContentCard } from '@/components/content-card';
 import {
   FocusAwareStatusBar,
@@ -46,32 +47,68 @@ export default function Library() {
             </Pressable>
           </View>
 
-          {/* Quick Stats */}
+          {/* Progress & Stats */}
           <View className="mt-6">
             <View className="mb-4 flex-row items-center justify-between">
               <Text className="text-xl font-bold text-white">
-                Reading Stats
+                Your Progress
+              </Text>
+              <Text className="text-sm text-blue-400">
+                Level {mockUserProfile.level}
               </Text>
             </View>
+
+            {/* Level Progress */}
+            <View className="mb-4 rounded-2xl bg-gradient-to-r from-purple-600 to-blue-600 p-4">
+              <View className="flex-row items-center justify-between">
+                <View className="flex-1">
+                  <Text className="text-lg font-bold text-white">
+                    {mockUserProfile.rank}
+                  </Text>
+                  <Text className="text-sm text-purple-100">
+                    {mockUserProfile.xpToNextLevel} XP to next level
+                  </Text>
+                  <View className="mt-2 h-2 overflow-hidden rounded-full bg-white/20">
+                    <View
+                      className="h-full bg-white"
+                      style={{
+                        width: `${(mockUserProfile.xp / (mockUserProfile.xp + mockUserProfile.xpToNextLevel)) * 100}%`,
+                      }}
+                    />
+                  </View>
+                </View>
+                <Text className="ml-4 text-2xl font-bold text-white">
+                  {mockUserProfile.xp}
+                </Text>
+              </View>
+            </View>
+
+            {/* Reading Stats */}
             <View className="mb-6 rounded-2xl bg-gray-800 p-6">
               <View className="flex-row justify-between">
                 <View className="items-center">
                   <Text className="text-2xl font-bold text-blue-400">
-                    {totalAnime}
+                    {mockUserProfile.stats.chaptersRead}
                   </Text>
-                  <Text className="text-sm text-gray-400">Anime</Text>
+                  <Text className="text-sm text-gray-400">Chapters</Text>
                 </View>
                 <View className="items-center">
                   <Text className="text-2xl font-bold text-green-400">
-                    {totalManga}
+                    {mockUserProfile.stats.episodesWatched}
                   </Text>
-                  <Text className="text-sm text-gray-400">Manga</Text>
+                  <Text className="text-sm text-gray-400">Episodes</Text>
                 </View>
                 <View className="items-center">
                   <Text className="text-2xl font-bold text-yellow-400">
-                    {totalHours}
+                    {mockUserProfile.stats.hoursSpent}
                   </Text>
-                  <Text className="text-sm text-gray-400">Hours Read</Text>
+                  <Text className="text-sm text-gray-400">Hours</Text>
+                </View>
+                <View className="items-center">
+                  <Text className="text-2xl font-bold text-orange-400">
+                    {mockUserProfile.streak}
+                  </Text>
+                  <Text className="text-sm text-gray-400">Day Streak</Text>
                 </View>
               </View>
             </View>

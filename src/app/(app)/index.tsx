@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 
 import { mockAnime, mockManga } from '@/api/anime';
+import { mockUserProfile } from '@/api/gamification';
 import { ContentCard } from '@/components/content-card';
 import { FeaturedCard } from '@/components/featured-card';
 import {
@@ -13,7 +14,7 @@ import {
   Text,
   View,
 } from '@/components/ui';
-import { Search } from '@/components/ui/icons';
+import { Award, Search, TrendingUp } from '@/components/ui/icons';
 
 export default function Home() {
   const router = useRouter();
@@ -39,26 +40,66 @@ export default function Home() {
       <SafeAreaView className="flex-1 bg-gray-900">
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           {/* Header */}
-          <View className="flex-row items-center justify-between px-6 py-4">
-            <Text className="text-3xl font-bold text-white">Animly</Text>
+          <View className="px-6 py-4">
+            {/* Top Row - Stats and Actions */}
+            <View className="mb-4 flex-row items-center justify-between">
+              {/* Gamification Stats */}
+              <View className="flex-row items-center">
+                {/* Level Badge */}
+                <View className="mr-3 flex-row items-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 px-3 py-1">
+                  <Text className="text-sm font-bold text-white">
+                    LV {mockUserProfile.level}
+                  </Text>
+                </View>
 
-            <View className="flex-row items-center">
-              {/* Search Icon */}
-              <Pressable
-                onPress={() => router.push('/search')}
-                className="mr-4 rounded-full bg-gray-800 p-3"
-              >
-                <Search color="#9CA3AF" size={24} />
-              </Pressable>
+                {/* XP Indicator */}
+                <View className="mr-3 flex-row items-center rounded-full bg-blue-500/20 px-3 py-1">
+                  <Award color="#3B82F6" size={14} />
+                  <Text className="ml-1 text-sm font-bold text-blue-400">
+                    {mockUserProfile.xp}
+                  </Text>
+                </View>
 
-              {/* Profile Avatar */}
-              <Pressable onPress={() => router.push('/profile')}>
-                <Image
-                  source={{ uri: 'https://pic.re/image/80x80/profile-avatar' }}
-                  className="size-12 rounded-full bg-gray-700"
-                  resizeMode="cover"
-                />
-              </Pressable>
+                {/* Streak Indicator */}
+                <View className="flex-row items-center rounded-full bg-orange-500/20 px-3 py-1">
+                  <TrendingUp color="#F97316" size={14} />
+                  <Text className="ml-1 text-sm font-bold text-orange-400">
+                    {mockUserProfile.streak}
+                  </Text>
+                </View>
+              </View>
+
+              {/* Actions */}
+              <View className="flex-row items-center">
+                {/* Search Icon */}
+                <Pressable
+                  onPress={() => router.push('/search')}
+                  className="mr-3 rounded-full bg-gray-800 p-2.5"
+                >
+                  <Search color="#9CA3AF" size={20} />
+                </Pressable>
+
+                {/* Profile Avatar */}
+                <Pressable onPress={() => router.push('/profile')}>
+                  <Image
+                    source={{
+                      uri: 'https://pic.re/image/80x80/profile-avatar',
+                    }}
+                    className="size-10 rounded-full bg-gray-700"
+                    resizeMode="cover"
+                  />
+                </Pressable>
+              </View>
+            </View>
+
+            {/* Welcome Message */}
+            <View>
+              <Text className="text-2xl font-bold text-white">
+                Good Evening
+              </Text>
+              <Text className="text-gray-400">
+                Ready for your next adventure?
+              </Text>
             </View>
           </View>
 

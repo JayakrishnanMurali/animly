@@ -161,10 +161,15 @@ export default function DetailScreen() {
                 <Text className="text-center text-lg font-bold text-white">
                   {isAnime ? 'Start Watching' : 'Start Reading'}
                 </Text>
+                <Text className="text-center text-sm text-blue-200">
+                  +{isAnime ? '15' : '10'} XP per{' '}
+                  {isAnime ? 'episode' : 'chapter'}
+                </Text>
               </Pressable>
 
               <Pressable className="rounded-full bg-white/20 px-6 py-4">
                 <Text className="text-lg font-bold text-white">Follow</Text>
+                <Text className="text-center text-xs text-gray-300">+5 XP</Text>
               </Pressable>
             </View>
           </View>

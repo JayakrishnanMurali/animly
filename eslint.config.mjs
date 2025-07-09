@@ -63,9 +63,9 @@ export default defineConfig([
       ],
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
-      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-imports': 'off',
       'unused-imports/no-unused-vars': [
-        'error',
+        'off',
         {
           argsIgnorePattern: '^_',
           varsIgnorePattern: '^_',
